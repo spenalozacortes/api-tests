@@ -1,12 +1,10 @@
 package models;
 
 import lombok.Data;
-import models.Address;
-import models.Company;
 
 @Data
 public class User {
-    private String id;
+    private int id;
     private String name;
     private String username;
     private String email;

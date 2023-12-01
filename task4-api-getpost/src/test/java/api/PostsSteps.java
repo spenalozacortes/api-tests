@@ -1,22 +1,25 @@
 package api;
 
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class PostsSteps {
 
+    private static final String END_POINT = "/posts";
+
     public static Response getPosts() {
-        return given().when().get("/posts");
+        return given().when().get(END_POINT);
     }
 
     public static Response getPostById(String id) {
         return given().pathParam("id", id)
-                .when().get("/posts/{id}");
+                .when().get(String.format("%s/{id}", END_POINT));
     }
 
     public static Response createPost(String body) {
-        return given().header("Content-Type", "application/json")
-                .body(body).when().post("/posts");
+        return given().contentType(ContentType.JSON)
+                .body(body).when().post(END_POINT);
     }
 }
