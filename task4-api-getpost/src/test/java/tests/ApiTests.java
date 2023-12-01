@@ -24,7 +24,12 @@ public class ApiTests extends BaseTest {
     @Test
     public void foundPost() {
         Response response = PostsSteps.getPostById("99");
+        Post post = response.as(Post.class);
         Assert.assertEquals(response.statusCode(), 200, "Status code is not 200");
+        Assert.assertEquals(post.getUserId(), 10, "userId is incorrect");
+        Assert.assertEquals(post.getId(), 99, "id is incorrect");
+        Assert.assertFalse(post.getTitle().isEmpty(), "title is empty");
+        Assert.assertFalse(post.getBody().isEmpty(), "body is empty");
     }
 
     @Test
