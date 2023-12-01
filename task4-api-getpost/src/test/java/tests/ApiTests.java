@@ -1,6 +1,8 @@
 package tests;
 
 import io.restassured.RestAssured;
+import models.post.Post;
+import models.user.User;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -14,9 +16,9 @@ public class ApiTests {
         given().when().get("/posts")
                 .then().assertThat().statusCode(200);
 
-        given().pathParam("id", "99")
+        Post post = given().pathParam("id", "99")
                 .when().get("/posts/{id}")
-                .then().assertThat().statusCode(200);
+                .as(Post.class);
 
         given().pathParam("id", "150")
                 .when().get("/posts/{id}")
@@ -33,9 +35,8 @@ public class ApiTests {
         given().when().get("/users")
                 .then().assertThat().statusCode(200);
 
-        given().pathParam("id", "5")
+        User user = given().pathParam("id", "5")
                 .when().get("/users/{id}")
-                .then().assertThat().statusCode(200)
-                .log().body();
+                .as(User.class);
     }
 }
