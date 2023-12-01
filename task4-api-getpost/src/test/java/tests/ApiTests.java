@@ -81,6 +81,21 @@ public class ApiTests extends BaseTest {
     @Test
     public void foundUser() {
         Response response = UsersSteps.getUserById("5");
+        User user = response.as(User.class);
         Assert.assertEquals(response.statusCode(), 200, "Status code is not 200");
+        Assert.assertEquals(user.getName(), "Chelsey Dietrich", "name is incorrect");
+        Assert.assertEquals(user.getUsername(), "Kamren", "username is incorrect");
+        Assert.assertEquals(user.getEmail(), "Lucio_Hettinger@annie.ca", "email is incorrect");
+        Assert.assertEquals(user.getAddress().getStreet(), "Skiles Walks", "street is incorrect");
+        Assert.assertEquals(user.getAddress().getSuite(), "Suite 351", "suite is incorrect");
+        Assert.assertEquals(user.getAddress().getCity(), "Roscoeview", "city is incorrect");
+        Assert.assertEquals(user.getAddress().getZipcode(), "33263", "zipcode is incorrect");
+        Assert.assertEquals(user.getAddress().getGeo().getLat(), "-31.8129", "lat is incorrect");
+        Assert.assertEquals(user.getAddress().getGeo().getLng(), "62.5342", "lng is incorrect");
+        Assert.assertEquals(user.getPhone(), "(254)954-1289", "phone is incorrect");
+        Assert.assertEquals(user.getWebsite(), "demarco.info", "website is incorrect");
+        Assert.assertEquals(user.getCompany().getName(), "Keebler LLC", "company name is incorrect");
+        Assert.assertEquals(user.getCompany().getCatchPhrase(), "User-centric fault-tolerant solution", "catchphrase is incorrect");
+        Assert.assertEquals(user.getCompany().getBs(), "revolutionize end-to-end systems", "bs is incorrect");
     }
 }
