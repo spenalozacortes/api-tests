@@ -45,7 +45,12 @@ public class ApiTests extends BaseTest {
                 "\"title\": \"foo\"," +
                 "\"body\": \"bar\"," +
                 "\"userId\": \"1\"}");
+        Post post = response.as(Post.class);
         Assert.assertEquals(response.statusCode(), 201, "Status code is not 201");
+        Assert.assertEquals(post.getUserId(), 1, "userId is incorrect");
+        Assert.assertEquals(post.getTitle(), "foo", "title is incorrect");
+        Assert.assertEquals(post.getBody(), "bar", "body is incorrect");
+        Assert.assertFalse(String.valueOf(post.getId()).isEmpty(), "id is not present");
     }
 
     @Test
