@@ -1,8 +1,7 @@
 package tests;
 
 import api.PostsSteps;
-import config.EnvironmentConfig;
-import io.restassured.RestAssured;
+import api.UsersSteps;
 import io.restassured.response.Response;
 import models.Post;
 import org.testng.Assert;
@@ -11,37 +10,47 @@ import utils.PostsUtils;
 
 import java.util.List;
 
-public class ApiTests {
+public class ApiTests extends BaseTest {
 
     @Test
-    public void apiTest() {
-        RestAssured.baseURI = EnvironmentConfig.getBaseURI();
-
-        Response getPosts = PostsSteps.getPosts();
-        Assert.assertEquals(getPosts.statusCode(), 200, "Status code is not 200");
-        Assert.assertTrue(getPosts.getContentType().contains("application/json"), "Response body is not JSON");
-        List<Post> posts = List.of(getPosts.as(Post[].class));
+    public void getPosts() {
+        Response response = PostsSteps.getPosts();
+        Assert.assertEquals(response.statusCode(), 200, "Status code is not 200");
+        Assert.assertTrue(response.getContentType().contains("application/json"), "Response body is not JSON");
+        List<Post> posts = List.of(response.as(Post[].class));
         Assert.assertTrue(PostsUtils.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
+    }
 
-       /* Post post1 = PostsSteps.getPostById("99").as(Post.class);
-        System.out.println(post1.getBody());
+    @Test
+    public void foundPost() {
+        Response response = PostsSteps.getPostById("99");
+        Assert.assertEquals(response.statusCode(), 200, "Status code is not 200");
+    }
 
-        Response post2 = PostsSteps.getPostById("150");
-        System.out.println(post2.statusCode());
+    @Test
+    public void notFoundPost() {
+        Response response = PostsSteps.getPostById("150");
+        Assert.assertEquals(response.statusCode(), 404, "Status code is not 404");
+    }
 
-        Post createdPost = PostsSteps.createPost("{" +
+    @Test
+    public void createPost() {
+        Response response = PostsSteps.createPost("{" +
                 "\"title\": \"foo\"," +
                 "\"body\": \"bar\"," +
-                "\"userId\": \"1\"}").as(Post.class);
-        System.out.println(createdPost.getTitle());
+                "\"userId\": \"1\"}");
+        Assert.assertEquals(response.statusCode(), 201, "Status code is not 201");
+    }
 
-        List<User> users = List.of(UsersSteps.getUsers()
-                .as(User[].class));
-        for(User user : users) {
-            System.out.println(user.getUsername());
-        }
+    @Test
+    public void getUsers() {
+        Response response = UsersSteps.getUsers();
+        Assert.assertEquals(response.statusCode(), 200, "Status code is not 200");
+    }
 
-        User user = UsersSteps.getUserById("5").as(User.class);
-        System.out.println(user.getUsername());*/
+    @Test
+    public void foundUser() {
+        Response response = UsersSteps.getUserById("5");
+        Assert.assertEquals(response.statusCode(), 200, "Status code is not 200");
     }
 }
