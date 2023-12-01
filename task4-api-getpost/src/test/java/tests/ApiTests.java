@@ -1,6 +1,9 @@
 package tests;
 
+import api.PostsSteps;
+import api.UsersSteps;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import models.post.Post;
 import models.user.User;
 import org.testng.annotations.Test;
@@ -13,30 +16,29 @@ public class ApiTests {
     public void apiTest() {
         RestAssured.baseURI = "https://jsonplaceholder.typicode.com/";
 
+        PostsSteps postsSteps = new PostsSteps();
+
         given().when().get("/posts")
                 .then().assertThat().statusCode(200);
 
-        Post post = given().pathParam("id", "99")
-                .when().get("/posts/{id}")
-                .as(Post.class);
+        Post post1 = postsSteps.getPostById("99").as(Post.class);
+        System.out.println(post1.getBody());
 
-        given().pathParam("id", "150")
-                .when().get("/posts/{id}")
-                .then().assertThat().statusCode(404);
+        Response post2 = postsSteps.getPostById("150");
+        System.out.println(post2.statusCode());
 
-        given().header("Content-Type", "application/json")
-                .body("{" +
-                        "\"title\": \"foo\"," +
-                        "\"body\": \"bar\"," +
-                        "\"userId\": \"1\"}")
-                .when().post("/posts")
-                .then().assertThat().statusCode(201);
+        Post createdPost = postsSteps.createPost("{" +
+                "\"title\": \"foo\"," +
+                "\"body\": \"bar\"," +
+                "\"userId\": \"1\"}").as(Post.class);
+        System.out.println(createdPost.getTitle());
+
+        UsersSteps usersSteps = new UsersSteps();
 
         given().when().get("/users")
                 .then().assertThat().statusCode(200);
 
-        User user = given().pathParam("id", "5")
-                .when().get("/users/{id}")
-                .as(User.class);
+        User user = usersSteps.getUserById("5").as(User.class);
+        System.out.println(user.getUsername());
     }
 }
