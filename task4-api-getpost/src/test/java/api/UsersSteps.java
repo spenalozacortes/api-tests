@@ -6,11 +6,11 @@ import static io.restassured.RestAssured.given;
 
 public class UsersSteps {
 
-    public Response getUsers() {
+    public static Response getUsers() {
         return given().when().get("/users");
     }
 
-    public Response getUserById(String id) {
+    public static Response getUserById(String id) {
         return given().pathParam("id", id)
                 .when().get("/users/{id}");
     }

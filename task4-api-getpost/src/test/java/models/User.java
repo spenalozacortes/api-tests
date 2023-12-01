@@ -1,6 +1,8 @@
-package models.user;
+package models;
 
 import lombok.Data;
+import models.Address;
+import models.Company;
 
 @Data
 public class User {

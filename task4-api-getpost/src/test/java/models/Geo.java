@@ -1,4 +1,4 @@
-package models.user;
+package models;
 
 import lombok.Data;
 
