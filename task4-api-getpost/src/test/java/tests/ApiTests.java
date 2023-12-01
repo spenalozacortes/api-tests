@@ -36,6 +36,7 @@ public class ApiTests extends BaseTest {
     public void notFoundPost() {
         Response response = PostsSteps.getPostById("150");
         Assert.assertEquals(response.statusCode(), 404, "Status code is not 404");
+        Assert.assertEquals(response.getBody().asString(), "{}", "Response body is not empty");
     }
 
     @Test
