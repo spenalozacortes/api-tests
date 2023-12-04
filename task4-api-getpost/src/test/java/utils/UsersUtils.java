@@ -1,5 +1,6 @@
 package utils;
 
+import com.google.gson.Gson;
 import models.User;
 
 import java.util.List;
@@ -13,5 +14,10 @@ public class UsersUtils {
             }
         }
         return null;
+    }
+
+    public static String convertToJson(User user) {
+        Gson gson = new Gson();
+        return gson.toJson(user);
     }
 }
