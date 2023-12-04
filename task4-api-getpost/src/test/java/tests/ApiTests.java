@@ -2,12 +2,11 @@ package tests;
 
 import api.PostsSteps;
 import api.UsersSteps;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import config.TestDataConfig;
 import io.restassured.response.Response;
 import models.Post;
 import models.User;
+import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.PostsUtils;
@@ -18,46 +17,54 @@ import java.util.List;
 
 public class ApiTests extends BaseTest {
 
+    private static final String CONTENT_TYPE = "json";
+    private static final String BODY = "{}";
+    private static final int POST_ID = 99;
+    private static final int POST_ID_NOT_FOUND = 150;
+    private static final int USER_ID_GET = 10;
+    private static final int USER_ID_POST = 1;
+    private static final int USER_ID = 5;
+
     @Test
     public void getPosts() {
         Response response = PostsSteps.getPosts();
         List<Post> posts = List.of(response.as(Post[].class));
 
-        Assert.assertEquals(response.statusCode(), 200, "Status code is not 200");
-        Assert.assertTrue(response.getContentType().contains("application/json"), "Response body is not JSON");
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
+        Assert.assertTrue(response.getContentType().contains(CONTENT_TYPE), "Response body is not JSON");
         Assert.assertTrue(PostsUtils.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
     }
 
     @Test
     public void foundPost() {
-        Response response = PostsSteps.getPostById("99");
+        Response response = PostsSteps.getPostById(POST_ID);
         Post post = response.as(Post.class);
 
-        Assert.assertEquals(response.statusCode(), 200, "Status code is not 200");
-        Assert.assertEquals(post.getUserId(), 10, "userId is incorrect");
-        Assert.assertEquals(post.getId(), 99, "id is incorrect");
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
+        Assert.assertEquals(post.getUserId(), USER_ID_GET, "userId is incorrect");
+        Assert.assertEquals(post.getId(), POST_ID, "id is incorrect");
         Assert.assertFalse(post.getTitle().isEmpty(), "title is empty");
         Assert.assertFalse(post.getBody().isEmpty(), "body is empty");
     }
 
     @Test
     public void notFoundPost() {
-        Response response = PostsSteps.getPostById("150");
+        Response response = PostsSteps.getPostById(POST_ID_NOT_FOUND);
 
-        Assert.assertEquals(response.statusCode(), 404, "Status code is not 404");
-        Assert.assertEquals(response.getBody().asString(), "{}", "Response body is not empty");
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_NOT_FOUND, "Status code is not 404");
+        Assert.assertEquals(response.getBody().asString(), BODY, "Response body is not empty");
     }
 
     @Test
     public void sendPost() {
         String randomTitle = RandomUtils.generateRandomString(10);
         String randomBody = RandomUtils.generateRandomString(50);
-        String post = PostsUtils.createPost(randomTitle, randomBody, 1);
+        String post = PostsUtils.createPost(randomTitle, randomBody, USER_ID_POST);
         Response response = PostsSteps.sendPost(post);
         Post actualPost = response.as(Post.class);
 
-        Assert.assertEquals(response.statusCode(), 201, "Status code is not 201");
-        Assert.assertEquals(actualPost.getUserId(), 1, "userId is incorrect");
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_CREATED, "Status code is not 201");
+        Assert.assertEquals(actualPost.getUserId(), USER_ID_POST, "userId is incorrect");
         Assert.assertEquals(actualPost.getTitle(), randomTitle, "title is incorrect");
         Assert.assertEquals(actualPost.getBody(), randomBody, "body is incorrect");
         Assert.assertFalse(String.valueOf(actualPost.getId()).isEmpty(), "id is not present");
@@ -67,20 +74,22 @@ public class ApiTests extends BaseTest {
     public void getUsers() {
         Response response = UsersSteps.getUsers();
         List<User> users = List.of(response.as(User[].class));
-        User user = UsersUtils.getUserFromListById(users, 5);
+        User user = UsersUtils.getUserFromListById(users, USER_ID);
         String actualUser = UsersUtils.convertToJson(user);
         String expectedUser = TestDataConfig.readTestUser().toString();
 
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         Assert.assertEquals(actualUser, expectedUser, "User data is not equal");
     }
 
     @Test
     public void foundUser() {
-        Response response = UsersSteps.getUserById("5");
+        Response response = UsersSteps.getUserById(USER_ID);
         User user = response.as(User.class);
         String actualUser = UsersUtils.convertToJson(user);
         String expectedUser = TestDataConfig.readTestUser().toString();
 
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         Assert.assertEquals(actualUser, expectedUser, "User data is not equal");
     }
 }

@@ -13,7 +13,7 @@ public class PostsSteps {
         return given().when().get(END_POINT);
     }
 
-    public static Response getPostById(String id) {
+    public static Response getPostById(int id) {
         return given().pathParam("id", id)
                 .when().get(String.format("%s/{id}", END_POINT));
     }

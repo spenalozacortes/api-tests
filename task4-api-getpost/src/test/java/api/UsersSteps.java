@@ -12,7 +12,7 @@ public class UsersSteps {
         return given().when().get(END_POINT);
     }
 
-    public static Response getUserById(String id) {
+    public static Response getUserById(int id) {
         return given().pathParam("id", id)
                 .when().get(String.format("%s/{id}", END_POINT));
     }
