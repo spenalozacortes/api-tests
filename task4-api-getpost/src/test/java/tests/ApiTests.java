@@ -2,7 +2,6 @@ package tests;
 
 import api.PostsSteps;
 import api.UsersSteps;
-import com.google.gson.Gson;
 import io.restassured.response.Response;
 import models.Post;
 import models.User;
@@ -47,15 +46,11 @@ public class ApiTests extends BaseTest {
     }
 
     @Test
-    public void createPost() {
+    public void sendPost() {
         String randomTitle = RandomUtils.generateRandomString(10);
         String randomBody = RandomUtils.generateRandomString(50);
-        Post post = new Post();
-        post.setTitle(randomTitle);
-        post.setBody(randomBody);
-        post.setUserId(1);
-        Gson gson = new Gson();
-        Response response = PostsSteps.createPost(gson.toJson(post));
+        String post = PostsUtils.createPost(randomTitle, randomBody, 1);
+        Response response = PostsSteps.sendPost(post);
         Post actualPost = response.as(Post.class);
 
         Assert.assertEquals(response.statusCode(), 201, "Status code is not 201");

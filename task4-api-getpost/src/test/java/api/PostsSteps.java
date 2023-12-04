@@ -18,7 +18,7 @@ public class PostsSteps {
                 .when().get(String.format("%s/{id}", END_POINT));
     }
 
-    public static Response createPost(String body) {
+    public static Response sendPost(String body) {
         return given().contentType(ContentType.JSON)
                 .body(body).when().post(END_POINT);
     }

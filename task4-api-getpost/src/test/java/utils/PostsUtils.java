@@ -1,5 +1,6 @@
 package utils;
 
+import com.google.gson.Gson;
 import models.Post;
 
 import java.util.List;
@@ -13,5 +14,14 @@ public class PostsUtils {
             }
         }
         return true;
+    }
+
+    public static String createPost(String title, String body, int userId) {
+        Post post = new Post();
+        post.setTitle(title);
+        post.setBody(body);
+        post.setUserId(userId);
+        Gson gson = new Gson();
+        return gson.toJson(post);
     }
 }
