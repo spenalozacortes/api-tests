@@ -2,6 +2,7 @@ package tests;
 
 import api.PostsSteps;
 import api.UsersSteps;
+import com.google.gson.JsonObject;
 import config.TestDataConfig;
 import io.restassured.response.Response;
 import models.PostResponse;
@@ -9,6 +10,7 @@ import models.UserResponse;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import utils.JsonMapperUtils;
 import utils.RandomUtils;
 import utils.UsersUtils;
 
@@ -76,22 +78,20 @@ public class ApiTests extends BaseTest {
     public void getUsers() {
         Response response = UsersSteps.getUsers();
         List<UserResponse> users = List.of(response.as(UserResponse[].class));
-        UserResponse user = UsersUtils.getUserFromListById(users, USER_ID);
-        String actualUser = UsersUtils.convertToJson(user);
-        String expectedUser = TestDataConfig.readTestUser().toString();
+        UserResponse actualUser = UsersUtils.getUserFromListById(users, USER_ID);
+        UserResponse expectedUser = JsonMapperUtils.deserialize(TestDataConfig.readTestUser(), UserResponse.class);
 
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
-        Assert.assertEquals(actualUser, expectedUser, "User data is not equal");
+        Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
 
     @Test
     public void foundUser() {
         Response response = UsersSteps.getUserById(USER_ID);
-        UserResponse user = response.as(UserResponse.class);
-        String actualUser = UsersUtils.convertToJson(user);
-        String expectedUser = TestDataConfig.readTestUser().toString();
+        UserResponse actualUser = response.as(UserResponse.class);
+        UserResponse expectedUser = JsonMapperUtils.deserialize(TestDataConfig.readTestUser(), UserResponse.class);
 
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
-        Assert.assertEquals(actualUser, expectedUser, "User data is not equal");
+        Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
 }

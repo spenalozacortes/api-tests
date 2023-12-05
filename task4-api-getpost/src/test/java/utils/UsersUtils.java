@@ -15,9 +15,4 @@ public class UsersUtils {
         }
         return null;
     }
-
-    public static String convertToJson(UserResponse user) {
-        Gson gson = new Gson();
-        return gson.toJson(user);
-    }
 }
