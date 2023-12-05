@@ -29,9 +29,8 @@ public class ApiTests extends BaseTest {
     @Test
     public void getPosts() {
         Response response = PostsSteps.getPosts();
-        List<PostResponse> posts = List.of(response.as(PostResponse[].class));
-
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
+        List<PostResponse> posts = List.of(response.as(PostResponse[].class));
         Assert.assertTrue(response.getContentType().contains(CONTENT_TYPE), "Response body is not JSON");
         Assert.assertTrue(PostsSteps.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
     }
@@ -39,9 +38,8 @@ public class ApiTests extends BaseTest {
     @Test
     public void foundPost() {
         Response response = PostsSteps.getPostById(POST_ID);
-        PostResponse post = response.as(PostResponse.class);
-
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
+        PostResponse post = response.as(PostResponse.class);
         Assert.assertEquals(post.getUserId(), USER_ID_GET, "userId is incorrect");
         Assert.assertEquals(post.getId(), POST_ID, "id is incorrect");
         Assert.assertFalse(post.getTitle().isEmpty(), "title is empty");
@@ -51,7 +49,6 @@ public class ApiTests extends BaseTest {
     @Test
     public void notFoundPost() {
         Response response = PostsSteps.getPostById(POST_ID_NOT_FOUND);
-
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_NOT_FOUND, "Status code is not 404");
         Assert.assertEquals(response.getBody().asString(), BODY, "Response body is not empty");
     }
@@ -65,9 +62,8 @@ public class ApiTests extends BaseTest {
         post.setBody(randomBody);
         post.setUserId(USER_ID_POST);
         Response response = PostsSteps.sendPost(post);
-        PostResponse actualPost = response.as(PostResponse.class);
-
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_CREATED, "Status code is not 201");
+        PostResponse actualPost = response.as(PostResponse.class);
         Assert.assertEquals(actualPost.getUserId(), USER_ID_POST, "userId is incorrect");
         Assert.assertEquals(actualPost.getTitle(), randomTitle, "title is incorrect");
         Assert.assertEquals(actualPost.getBody(), randomBody, "body is incorrect");
@@ -77,21 +73,19 @@ public class ApiTests extends BaseTest {
     @Test
     public void getUsers() {
         Response response = UsersSteps.getUsers();
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         List<UserResponse> users = List.of(response.as(UserResponse[].class));
         UserResponse actualUser = UsersUtils.getUserFromListById(users, USER_ID);
         UserResponse expectedUser = JsonMapperUtils.deserialize(TestDataConfig.readTestUser(), UserResponse.class);
-
-        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
 
     @Test
     public void foundUser() {
         Response response = UsersSteps.getUserById(USER_ID);
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         UserResponse actualUser = response.as(UserResponse.class);
         UserResponse expectedUser = JsonMapperUtils.deserialize(TestDataConfig.readTestUser(), UserResponse.class);
-
-        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
 }
