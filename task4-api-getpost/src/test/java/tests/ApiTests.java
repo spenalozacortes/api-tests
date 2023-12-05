@@ -9,7 +9,6 @@ import models.UserResponse;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import utils.PostsUtils;
 import utils.RandomUtils;
 import utils.UsersUtils;
 
@@ -59,7 +58,10 @@ public class ApiTests extends BaseTest {
     public void sendPost() {
         String randomTitle = RandomUtils.generateRandomString(10);
         String randomBody = RandomUtils.generateRandomString(50);
-        String post = PostsUtils.createPost(randomTitle, randomBody, USER_ID_POST);
+        PostResponse post = new PostResponse();
+        post.setTitle(randomTitle);
+        post.setBody(randomBody);
+        post.setUserId(USER_ID_POST);
         Response response = PostsSteps.sendPost(post);
         PostResponse actualPost = response.as(PostResponse.class);
 
