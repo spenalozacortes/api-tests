@@ -18,7 +18,6 @@ public class RandomUtils {
             char randomChar = CHARACTERS.charAt(getRandomInt(CHARACTERS.length()));
             randomString.append(randomChar);
         }
-
         return randomString.toString();
     }
 }
