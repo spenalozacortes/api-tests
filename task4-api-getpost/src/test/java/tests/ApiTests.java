@@ -11,10 +11,12 @@ import models.UserResponse;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import utils.JsonMapperUtils;
 import utils.RandomUtils;
 import utils.UsersUtils;
 
+import java.lang.ref.SoftReference;
 import java.util.List;
 
 public class ApiTests extends BaseTest {
@@ -42,10 +44,12 @@ public class ApiTests extends BaseTest {
         Response response = PostsSteps.getPostById(POST_ID);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         PostResponse post = response.as(PostResponse.class);
-        Assert.assertEquals(post.getUserId(), USER_ID_GET, "userId is incorrect");
-        Assert.assertEquals(post.getId(), POST_ID, "id is incorrect");
-        Assert.assertFalse(post.getTitle().isEmpty(), "title is empty");
-        Assert.assertFalse(post.getBody().isEmpty(), "body is empty");
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(post.getUserId(), USER_ID_GET, "userId is incorrect");
+        softAssert.assertEquals(post.getId(), POST_ID, "id is incorrect");
+        softAssert.assertFalse(post.getTitle().isEmpty(), "title is empty");
+        softAssert.assertFalse(post.getBody().isEmpty(), "body is empty");
+        softAssert.assertAll();
     }
 
     @Test
@@ -66,10 +70,12 @@ public class ApiTests extends BaseTest {
         Response response = PostsSteps.sendPost(post);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_CREATED, "Status code is not 201");
         PostResponse actualPost = response.as(PostResponse.class);
-        Assert.assertEquals(actualPost.getUserId(), USER_ID_POST, "userId is incorrect");
-        Assert.assertEquals(actualPost.getTitle(), randomTitle, "title is incorrect");
-        Assert.assertEquals(actualPost.getBody(), randomBody, "body is incorrect");
-        Assert.assertFalse(String.valueOf(actualPost.getId()).isEmpty(), "id is not present");
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(actualPost.getUserId(), USER_ID_POST, "userId is incorrect");
+        softAssert.assertEquals(actualPost.getTitle(), randomTitle, "title is incorrect");
+        softAssert.assertEquals(actualPost.getBody(), randomBody, "body is incorrect");
+        softAssert.assertFalse(String.valueOf(actualPost.getId()).isEmpty(), "id is not present");
+        softAssert.assertAll();
     }
 
     @Test
