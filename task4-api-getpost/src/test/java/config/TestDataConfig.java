@@ -9,7 +9,7 @@ public class TestDataConfig {
 
     public static JsonObject readTestUser() {
         try {
-            FileReader reader = new FileReader("src/test/resources/testUser.json");
+            FileReader reader = new FileReader("src/test/resources/apiresponses/user5Response.json");
             return JsonParser.parseReader(reader).getAsJsonObject();
         } catch (Exception e) {
             throw new RuntimeException(e);
