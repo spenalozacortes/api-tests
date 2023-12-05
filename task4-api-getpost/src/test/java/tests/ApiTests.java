@@ -4,6 +4,7 @@ import api.PostsSteps;
 import api.UsersSteps;
 import com.google.gson.JsonObject;
 import config.TestDataConfig;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.PostResponse;
 import models.UserResponse;
@@ -18,7 +19,6 @@ import java.util.List;
 
 public class ApiTests extends BaseTest {
 
-    private static final String CONTENT_TYPE = "json";
     private static final String BODY = "{}";
     private static final int POST_ID = 99;
     private static final int POST_ID_NOT_FOUND = 150;
@@ -33,7 +33,7 @@ public class ApiTests extends BaseTest {
         Response response = PostsSteps.getPosts();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         List<PostResponse> posts = List.of(response.as(PostResponse[].class));
-        Assert.assertTrue(response.getContentType().contains(CONTENT_TYPE), "Response body is not JSON");
+        Assert.assertTrue(response.getContentType().contains(ContentType.JSON.toString()), "Response body is not JSON");
         Assert.assertTrue(PostsSteps.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
     }
 
