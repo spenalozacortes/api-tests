@@ -25,6 +25,8 @@ public class ApiTests extends BaseTest {
     private static final int USER_ID_GET = 10;
     private static final int USER_ID_POST = 1;
     private static final int USER_ID = 5;
+    private static final int TITLE_LENGTH = 10;
+    private static final int BODY_LENGTH = 50;
 
     @Test
     public void getPosts() {
@@ -55,8 +57,8 @@ public class ApiTests extends BaseTest {
 
     @Test
     public void sendPost() {
-        String randomTitle = RandomUtils.generateRandomString(10);
-        String randomBody = RandomUtils.generateRandomString(50);
+        String randomTitle = RandomUtils.generateRandomString(TITLE_LENGTH);
+        String randomBody = RandomUtils.generateRandomString(BODY_LENGTH);
         PostResponse post = new PostResponse();
         post.setTitle(randomTitle);
         post.setBody(randomBody);
