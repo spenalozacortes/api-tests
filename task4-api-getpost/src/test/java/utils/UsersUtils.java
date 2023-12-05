@@ -1,14 +1,14 @@
 package utils;
 
 import com.google.gson.Gson;
-import models.User;
+import models.UserResponse;
 
 import java.util.List;
 
 public class UsersUtils {
 
-    public static User getUserFromListById(List<User> users, int id) {
-        for(User user : users) {
+    public static UserResponse getUserFromListById(List<UserResponse> users, int id) {
+        for(UserResponse user : users) {
             if(user.getId() == id) {
                 return user;
             }
@@ -16,7 +16,7 @@ public class UsersUtils {
         return null;
     }
 
-    public static String convertToJson(User user) {
+    public static String convertToJson(UserResponse user) {
         Gson gson = new Gson();
         return gson.toJson(user);
     }

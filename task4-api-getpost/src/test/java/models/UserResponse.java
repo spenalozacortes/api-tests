@@ -3,7 +3,7 @@ package models;
 import lombok.Data;
 
 @Data
-public class User {
+public class UserResponse {
     private int id;
     private String name;
     private String username;
