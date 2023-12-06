@@ -1,6 +1,7 @@
 package api;
 
 import constants.Endpoints;
+import constants.Parameters;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.PostResponse;
@@ -19,9 +20,9 @@ public class PostsSteps {
 
     public Response getPostById(int id) {
         return given()
-                .pathParam("id", id)
+                .pathParam(Parameters.ID, id)
                 .when()
-                .get(String.format("%s/{id}", Endpoints.POSTS));
+                .get(Endpoints.POST_BY_ID);
     }
 
     public Response sendPost(PostResponse body) {

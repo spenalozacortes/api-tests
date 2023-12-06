@@ -1,6 +1,7 @@
 package api;
 
 import constants.Endpoints;
+import constants.Parameters;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -15,8 +16,8 @@ public class UsersSteps {
 
     public Response getUserById(int id) {
         return given()
-                .pathParam("id", id)
+                .pathParam(Parameters.ID, id)
                 .when()
-                .get(String.format("%s/{id}", Endpoints.USERS));
+                .get(Endpoints.USER_BY_ID);
     }
 }
