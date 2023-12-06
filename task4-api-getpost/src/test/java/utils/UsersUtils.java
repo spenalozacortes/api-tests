@@ -1,9 +1,9 @@
 package utils;
 
-import com.google.gson.Gson;
 import models.UserResponse;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class UsersUtils {
 
@@ -13,6 +13,6 @@ public class UsersUtils {
                 return user;
             }
         }
-        return null;
+        throw new NoSuchElementException(String.format("User with ID %d not found", id));
     }
 }
