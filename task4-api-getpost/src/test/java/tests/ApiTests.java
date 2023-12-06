@@ -12,13 +12,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utils.JsonMapperUtils;
 import utils.RandomUtils;
+import utils.ResponseUtils;
 import utils.UsersUtils;
 
 import java.util.List;
 
 public class ApiTests extends BaseTest {
 
-    private static final String BODY = "{}";
     private static final String USER_PATH = "src/test/resources/apiresponses/user5Response.json";
     private static final int POST_ID = 99;
     private static final int POST_ID_NOT_FOUND = 150;
@@ -35,7 +35,7 @@ public class ApiTests extends BaseTest {
         Response response = postsSteps.getPosts();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         List<PostResponse> posts = List.of(response.as(PostResponse[].class));
-        Assert.assertTrue(response.getContentType().contains(ContentType.JSON.toString()), "Response body is not JSON");
+        Assert.assertTrue(ResponseUtils.checkContentType(response, ContentType.JSON), "Response body is not JSON");
         Assert.assertTrue(postsSteps.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
     }
 
@@ -56,7 +56,7 @@ public class ApiTests extends BaseTest {
     public void notFoundPost() {
         Response response = postsSteps.getPostById(POST_ID_NOT_FOUND);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_NOT_FOUND, "Status code is not 404");
-        Assert.assertEquals(response.getBody().asString(), BODY, "Response body is not empty");
+        ResponseUtils.isBodyEmpty(response);
     }
 
     @Test
