@@ -2,8 +2,6 @@ package tests;
 
 import api.PostsSteps;
 import api.UsersSteps;
-import com.google.gson.JsonObject;
-import config.TestDataConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.PostResponse;
@@ -16,12 +14,12 @@ import utils.JsonMapperUtils;
 import utils.RandomUtils;
 import utils.UsersUtils;
 
-import java.lang.ref.SoftReference;
 import java.util.List;
 
 public class ApiTests extends BaseTest {
 
     private static final String BODY = "{}";
+    private static final String USER_PATH = "src/test/resources/apiresponses/user5Response.json";
     private static final int POST_ID = 99;
     private static final int POST_ID_NOT_FOUND = 150;
     private static final int USER_ID_GET = 10;
@@ -84,7 +82,7 @@ public class ApiTests extends BaseTest {
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         List<UserResponse> users = List.of(response.as(UserResponse[].class));
         UserResponse actualUser = UsersUtils.getUserFromListById(users, USER_ID);
-        UserResponse expectedUser = JsonMapperUtils.deserialize(TestDataConfig.readTestUser(), UserResponse.class);
+        UserResponse expectedUser = JsonMapperUtils.deserialize(USER_PATH, UserResponse.class);
         Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
 
@@ -93,7 +91,7 @@ public class ApiTests extends BaseTest {
         Response response = UsersSteps.getUserById(USER_ID);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         UserResponse actualUser = response.as(UserResponse.class);
-        UserResponse expectedUser = JsonMapperUtils.deserialize(TestDataConfig.readTestUser(), UserResponse.class);
+        UserResponse expectedUser = JsonMapperUtils.deserialize(USER_PATH, UserResponse.class);
         Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
 }
