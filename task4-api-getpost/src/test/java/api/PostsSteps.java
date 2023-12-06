@@ -10,16 +10,18 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
-public class PostsSteps {
+public class PostsSteps extends BaseSteps {
 
     public Response getPosts() {
         return given()
+                .spec(getBaseReq())
                 .when()
                 .get(Endpoints.POSTS);
     }
 
     public Response getPostById(int id) {
         return given()
+                .spec(getBaseReq())
                 .pathParam(Parameters.ID, id)
                 .when()
                 .get(Endpoints.POST_BY_ID);
@@ -27,6 +29,7 @@ public class PostsSteps {
 
     public Response sendPost(PostResponse body) {
         return given()
+                .spec(getBaseReq())
                 .contentType(ContentType.JSON)
                 .body(body)
                 .when()

@@ -1,13 +1,15 @@
 package tests;
 
-import config.EnvironmentConfig;
 import io.restassured.RestAssured;
-import org.testng.annotations.BeforeMethod;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import org.testng.annotations.BeforeTest;
 
 public class BaseTest {
 
-    @BeforeMethod
+    @BeforeTest
     public void setup() {
-        RestAssured.baseURI = EnvironmentConfig.getBaseURI();
+        RestAssured.filters(new RequestLoggingFilter());
+        RestAssured.filters(new ResponseLoggingFilter());
     }
 }
