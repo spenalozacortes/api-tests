@@ -1,5 +1,6 @@
 package api;
 
+import constants.Endpoints;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.PostResponse;
@@ -10,19 +11,17 @@ import static io.restassured.RestAssured.given;
 
 public class PostsSteps {
 
-    private static final String END_POINT = "/posts";
-
     public Response getPosts() {
         return given()
                 .when()
-                .get(END_POINT);
+                .get(Endpoints.POSTS);
     }
 
     public Response getPostById(int id) {
         return given()
                 .pathParam("id", id)
                 .when()
-                .get(String.format("%s/{id}", END_POINT));
+                .get(String.format("%s/{id}", Endpoints.POSTS));
     }
 
     public Response sendPost(PostResponse body) {
@@ -30,7 +29,7 @@ public class PostsSteps {
                 .contentType(ContentType.JSON)
                 .body(body)
                 .when()
-                .post(END_POINT);
+                .post(Endpoints.POSTS);
     }
 
     public boolean arePostsSorted(List<PostResponse> posts) {
