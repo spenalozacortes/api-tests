@@ -12,20 +12,20 @@ public class PostsSteps {
 
     private static final String END_POINT = "/posts";
 
-    public static Response getPosts() {
+    public Response getPosts() {
         return given()
                 .when()
                 .get(END_POINT);
     }
 
-    public static Response getPostById(int id) {
+    public Response getPostById(int id) {
         return given()
                 .pathParam("id", id)
                 .when()
                 .get(String.format("%s/{id}", END_POINT));
     }
 
-    public static Response sendPost(PostResponse body) {
+    public Response sendPost(PostResponse body) {
         return given()
                 .contentType(ContentType.JSON)
                 .body(body)
@@ -33,7 +33,7 @@ public class PostsSteps {
                 .post(END_POINT);
     }
 
-    public static boolean arePostsSorted(List<PostResponse> posts) {
+    public boolean arePostsSorted(List<PostResponse> posts) {
         for (int i = 0; i < posts.size() - 1; i++) {
             if (posts.get(i).getId() > posts.get(i + 1).getId()) {
                 return false;

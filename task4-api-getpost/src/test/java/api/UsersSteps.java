@@ -8,13 +8,13 @@ public class UsersSteps {
 
     private static final String END_POINT = "/users";
 
-    public static Response getUsers() {
+    public Response getUsers() {
         return given()
                 .when()
                 .get(END_POINT);
     }
 
-    public static Response getUserById(int id) {
+    public Response getUserById(int id) {
         return given()
                 .pathParam("id", id)
                 .when()

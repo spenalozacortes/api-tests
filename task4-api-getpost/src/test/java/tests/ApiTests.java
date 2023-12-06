@@ -27,19 +27,21 @@ public class ApiTests extends BaseTest {
     private static final int USER_ID = 5;
     private static final int TITLE_LENGTH = 10;
     private static final int BODY_LENGTH = 50;
+    private UsersSteps usersSteps = new UsersSteps();
+    private PostsSteps postsSteps = new PostsSteps();
 
     @Test
     public void getPosts() {
-        Response response = PostsSteps.getPosts();
+        Response response = postsSteps.getPosts();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         List<PostResponse> posts = List.of(response.as(PostResponse[].class));
         Assert.assertTrue(response.getContentType().contains(ContentType.JSON.toString()), "Response body is not JSON");
-        Assert.assertTrue(PostsSteps.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
+        Assert.assertTrue(postsSteps.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
     }
 
     @Test
     public void foundPost() {
-        Response response = PostsSteps.getPostById(POST_ID);
+        Response response = postsSteps.getPostById(POST_ID);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         PostResponse post = response.as(PostResponse.class);
         SoftAssert softAssert = new SoftAssert();
@@ -52,7 +54,7 @@ public class ApiTests extends BaseTest {
 
     @Test
     public void notFoundPost() {
-        Response response = PostsSteps.getPostById(POST_ID_NOT_FOUND);
+        Response response = postsSteps.getPostById(POST_ID_NOT_FOUND);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_NOT_FOUND, "Status code is not 404");
         Assert.assertEquals(response.getBody().asString(), BODY, "Response body is not empty");
     }
@@ -65,7 +67,7 @@ public class ApiTests extends BaseTest {
         post.setTitle(randomTitle);
         post.setBody(randomBody);
         post.setUserId(USER_ID_POST);
-        Response response = PostsSteps.sendPost(post);
+        Response response = postsSteps.sendPost(post);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_CREATED, "Status code is not 201");
         PostResponse actualPost = response.as(PostResponse.class);
         SoftAssert softAssert = new SoftAssert();
@@ -78,7 +80,7 @@ public class ApiTests extends BaseTest {
 
     @Test
     public void getUsers() {
-        Response response = UsersSteps.getUsers();
+        Response response = usersSteps.getUsers();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         List<UserResponse> users = List.of(response.as(UserResponse[].class));
         UserResponse actualUser = UsersUtils.getUserFromListById(users, USER_ID);
@@ -88,7 +90,7 @@ public class ApiTests extends BaseTest {
 
     @Test
     public void foundUser() {
-        Response response = UsersSteps.getUserById(USER_ID);
+        Response response = usersSteps.getUserById(USER_ID);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         UserResponse actualUser = response.as(UserResponse.class);
         UserResponse expectedUser = JsonMapperUtils.deserialize(USER_PATH, UserResponse.class);
