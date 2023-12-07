@@ -2,11 +2,9 @@ package config;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import lombok.Getter;
 
 import java.io.FileReader;
 
-@Getter
 public class ConfigReader {
 
     private final JsonObject environment;
@@ -17,5 +15,9 @@ public class ConfigReader {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String getValueByKey(String key) {
+        return environment.get(key).getAsString();
     }
 }
