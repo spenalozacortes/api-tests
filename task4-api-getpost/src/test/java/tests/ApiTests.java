@@ -2,6 +2,7 @@ package tests;
 
 import api.PostsSteps;
 import api.UsersSteps;
+import constants.ApiResponsesPaths;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.PostResponse;
@@ -18,7 +19,6 @@ import java.util.List;
 
 public class ApiTests extends BaseTest {
 
-    private static final String USER_PATH = "src/test/resources/apiresponses/user5Response.json";
     private static final int POST_ID = 99;
     private static final int POST_ID_NOT_FOUND = 150;
     private static final int USER_ID_GET = 10;
@@ -84,7 +84,7 @@ public class ApiTests extends BaseTest {
         ResponseUtils.checkContentType(response, ContentType.JSON);
         List<UserResponse> users = List.of(response.as(UserResponse[].class));
         UserResponse actualUser = UsersSteps.getUserFromListById(users, USER_ID);
-        UserResponse expectedUser = JsonMapperUtils.deserialize(USER_PATH, UserResponse.class);
+        UserResponse expectedUser = JsonMapperUtils.deserialize(ApiResponsesPaths.USER_PATH, UserResponse.class);
         Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
 
@@ -93,7 +93,7 @@ public class ApiTests extends BaseTest {
         Response response = usersSteps.getUserById(USER_ID);
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         UserResponse actualUser = response.as(UserResponse.class);
-        UserResponse expectedUser = JsonMapperUtils.deserialize(USER_PATH, UserResponse.class);
+        UserResponse expectedUser = JsonMapperUtils.deserialize(ApiResponsesPaths.USER_PATH, UserResponse.class);
         Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
 }
