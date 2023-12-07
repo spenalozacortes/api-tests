@@ -81,6 +81,7 @@ public class ApiTests extends BaseTest {
     public void getUsers() {
         Response response = usersSteps.getUsers();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
+        ResponseUtils.checkContentType(response, ContentType.JSON);
         List<UserResponse> users = List.of(response.as(UserResponse[].class));
         UserResponse actualUser = UsersSteps.getUserFromListById(users, USER_ID);
         UserResponse expectedUser = JsonMapperUtils.deserialize(USER_PATH, UserResponse.class);
