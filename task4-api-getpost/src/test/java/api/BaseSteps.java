@@ -1,14 +1,15 @@
 package api;
 
 import config.EnvironmentConfig;
-import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
 public abstract class BaseSteps {
 
-    public RequestSpecification getBaseReq() {
-        return new RequestSpecBuilder()
-                .setBaseUri(EnvironmentConfig.getBaseURI())
-                .build();
+    protected RequestSpecification getBaseReq() {
+        return RestAssured.given()
+                .baseUri(EnvironmentConfig.getBaseURI())
+                .contentType(ContentType.JSON);
     }
 }

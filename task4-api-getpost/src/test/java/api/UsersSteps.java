@@ -8,20 +8,16 @@ import models.UserResponse;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static io.restassured.RestAssured.given;
-
 public class UsersSteps extends BaseSteps {
 
     public Response getUsers() {
-        return given()
-                .spec(getBaseReq())
+        return getBaseReq()
                 .when()
                 .get(Endpoints.USERS);
     }
 
     public Response getUserById(int id) {
-        return given()
-                .spec(getBaseReq())
+        return getBaseReq()
                 .pathParam(Parameters.ID, id)
                 .when()
                 .get(Endpoints.USER_BY_ID);

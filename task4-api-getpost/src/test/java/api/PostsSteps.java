@@ -2,35 +2,28 @@ package api;
 
 import constants.Endpoints;
 import constants.Parameters;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.PostResponse;
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
-
 public class PostsSteps extends BaseSteps {
 
     public Response getPosts() {
-        return given()
-                .spec(getBaseReq())
+        return getBaseReq()
                 .when()
                 .get(Endpoints.POSTS);
     }
 
     public Response getPostById(int id) {
-        return given()
-                .spec(getBaseReq())
+        return getBaseReq()
                 .pathParam(Parameters.ID, id)
                 .when()
                 .get(Endpoints.POST_BY_ID);
     }
 
     public Response sendPost(PostResponse body) {
-        return given()
-                .spec(getBaseReq())
-                .contentType(ContentType.JSON)
+        return getBaseReq()
                 .body(body)
                 .when()
                 .post(Endpoints.POSTS);
