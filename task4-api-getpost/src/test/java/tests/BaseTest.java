@@ -9,7 +9,6 @@ public class BaseTest {
 
     @BeforeTest
     public void setup() {
-        RestAssured.filters(new RequestLoggingFilter());
-        RestAssured.filters(new ResponseLoggingFilter());
+        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
     }
 }
