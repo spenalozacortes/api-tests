@@ -13,7 +13,6 @@ import org.testng.asserts.SoftAssert;
 import utils.JsonMapperUtils;
 import utils.RandomUtils;
 import utils.ResponseUtils;
-import utils.UsersUtils;
 
 import java.util.List;
 
@@ -83,7 +82,7 @@ public class ApiTests extends BaseTest {
         Response response = usersSteps.getUsers();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         List<UserResponse> users = List.of(response.as(UserResponse[].class));
-        UserResponse actualUser = UsersUtils.getUserFromListById(users, USER_ID);
+        UserResponse actualUser = UsersSteps.getUserFromListById(users, USER_ID);
         UserResponse expectedUser = JsonMapperUtils.deserialize(USER_PATH, UserResponse.class);
         Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
