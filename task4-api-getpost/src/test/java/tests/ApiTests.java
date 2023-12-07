@@ -26,8 +26,8 @@ public class ApiTests extends BaseTest {
     private static final int USER_ID = 5;
     private static final int TITLE_LENGTH = 10;
     private static final int BODY_LENGTH = 50;
-    private UsersSteps usersSteps = new UsersSteps();
-    private PostsSteps postsSteps = new PostsSteps();
+    private final UsersSteps usersSteps = new UsersSteps();
+    private final PostsSteps postsSteps = new PostsSteps();
 
     @Test
     public void getPosts() {
