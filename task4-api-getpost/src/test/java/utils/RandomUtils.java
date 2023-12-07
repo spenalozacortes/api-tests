@@ -1,7 +1,10 @@
 package utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.Random;
 
+@UtilityClass
 public class RandomUtils {
 
     private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyz ";

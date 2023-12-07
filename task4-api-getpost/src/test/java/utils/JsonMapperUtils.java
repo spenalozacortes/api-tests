@@ -3,9 +3,11 @@ package utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.experimental.UtilityClass;
 
 import java.io.FileReader;
 
+@UtilityClass
 public class JsonMapperUtils {
 
     public static <T> T deserialize(String path, Class<T> targetClass){

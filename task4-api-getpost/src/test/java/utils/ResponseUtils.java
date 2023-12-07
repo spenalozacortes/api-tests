@@ -2,9 +2,11 @@ package utils;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import lombok.experimental.UtilityClass;
 
 import static org.hamcrest.Matchers.equalTo;
 
+@UtilityClass
 public class ResponseUtils {
 
     private static final String BODY = "{}";
