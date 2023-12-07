@@ -11,10 +11,10 @@ public class ResponseUtils {
 
     private static final String BODY = "{}";
 
-    public static boolean checkContentType(Response response, ContentType contentType) {
-        return response
-                .getContentType()
-                .contains(contentType.toString());
+    public static void checkContentType(Response response, ContentType contentType) {
+        response.then()
+                .assertThat()
+                .contentType(contentType);
     }
 
     public static void isBodyEmpty(Response response) {

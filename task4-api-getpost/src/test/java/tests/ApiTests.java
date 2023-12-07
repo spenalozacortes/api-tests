@@ -34,7 +34,7 @@ public class ApiTests extends BaseTest {
         Response response = postsSteps.getPosts();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         List<PostResponse> posts = List.of(response.as(PostResponse[].class));
-        Assert.assertTrue(ResponseUtils.checkContentType(response, ContentType.JSON), "Response body is not JSON");
+        ResponseUtils.checkContentType(response, ContentType.JSON);
         Assert.assertTrue(postsSteps.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
     }
 
