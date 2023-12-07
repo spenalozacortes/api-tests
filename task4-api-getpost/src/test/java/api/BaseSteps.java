@@ -4,7 +4,7 @@ import config.EnvironmentConfig;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
-public class BaseSteps {
+public abstract class BaseSteps {
 
     public RequestSpecification getBaseReq() {
         return new RequestSpecBuilder()
