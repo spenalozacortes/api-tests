@@ -23,7 +23,8 @@ public class UsersSteps extends BaseSteps {
                 .get(Endpoints.USER_BY_ID);
     }
 
-    public static UserResponse getUserFromListById(List<UserResponse> users, int id) {
+    public static UserResponse getUserFromListById(Response response, int id) {
+        List<UserResponse> users = List.of(response.as(UserResponse[].class));
         for(UserResponse user : users) {
             if(user.getId() == id) {
                 return user;

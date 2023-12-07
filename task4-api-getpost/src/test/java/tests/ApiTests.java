@@ -33,9 +33,8 @@ public class ApiTests extends BaseTest {
     public void getPosts() {
         Response response = postsSteps.getPosts();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
-        List<PostResponse> posts = List.of(response.as(PostResponse[].class));
         ResponseUtils.checkContentType(response, ContentType.JSON);
-        Assert.assertTrue(postsSteps.arePostsSorted(posts), "Posts are not sorted in ascending order by id");
+        Assert.assertTrue(postsSteps.arePostsSorted(response), "Posts are not sorted in ascending order by id");
     }
 
     @Test
@@ -82,8 +81,7 @@ public class ApiTests extends BaseTest {
         Response response = usersSteps.getUsers();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code is not 200");
         ResponseUtils.checkContentType(response, ContentType.JSON);
-        List<UserResponse> users = List.of(response.as(UserResponse[].class));
-        UserResponse actualUser = UsersSteps.getUserFromListById(users, USER_ID);
+        UserResponse actualUser = UsersSteps.getUserFromListById(response, USER_ID);
         UserResponse expectedUser = JsonMapperUtils.deserialize(ApiResponsesPaths.USER_PATH, UserResponse.class);
         Assert.assertEquals(actualUser, expectedUser, "User data is not as expected");
     }
