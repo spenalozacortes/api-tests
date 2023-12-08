@@ -5,7 +5,7 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import org.testng.annotations.BeforeTest;
 
-public class BaseTest {
+public abstract class BaseTest {
 
     @BeforeTest
     public void setup() {
