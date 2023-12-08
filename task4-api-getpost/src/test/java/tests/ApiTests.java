@@ -15,8 +15,6 @@ import utils.JsonMapperUtils;
 import utils.RandomUtils;
 import utils.ResponseUtils;
 
-import java.util.List;
-
 public class ApiTests extends BaseTest {
 
     private static final int POST_ID = 99;
